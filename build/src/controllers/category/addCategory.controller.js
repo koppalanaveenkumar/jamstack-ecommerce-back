@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = require("jsonwebtoken");
 const config_1 = __importDefault(require("../../config"));
+const category_model_1 = __importDefault(require("../../models/category/category.model"));
 const addCategory_model_1 = __importDefault(require("../../models/category/addCategory.model"));
 class addCategoryController {
     constructor() {
@@ -27,14 +28,20 @@ class addCategoryController {
             return jsonwebtoken_1.sign(dataStoredInToken, config_1.default.ADMIN_JWT_SECRET, { expiresIn });
         };
         this.addCategoryItem = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            let product = new addCategory_model_1.default(req.body);
             try {
-                const products = yield product.save();
-                if (products) {
-                    res.status(201).json("done");
+                let categoryId = yield category_model_1.default.findById(req.body["categoryId"]);
+                if (categoryId) {
+                    let product = new addCategory_model_1.default(req.body);
+                    const products = yield product.save();
+                    if (products) {
+                        res.status(201).json("done");
+                    }
+                    else {
+                        res.status(409).json({ Error: "Something went wrong" });
+                    }
                 }
                 else {
-                    res.status(409).json({ Error: "Something went wrong" });
+                    res.status(404).send({ categoryId: "Not Found" });
                 }
             }
             catch (err) {
@@ -44,9 +51,36 @@ class addCategoryController {
         });
         this.allItems = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const allItems = yield addCategory_model_1.default.find({});
+                const allItems = yield addCategory_model_1.default.aggregate([
+                    {
+                        $lookup: {
+                            from: "categories",
+                            localField: "categoryId",
+                            foreignField: "_id",
+                            as: "categoryDetails"
+                        }
+                    },
+                    {
+                        $unwind: {
+                            path: "$categoryDetails",
+                            preserveNullAndEmptyArrays: true
+                        }
+                    },
+                    {
+                        $project: {
+                            title: "$productName",
+                            description: "$description",
+                            brand: "$brand",
+                            color: "$color",
+                            price: "$price",
+                            countInStock: "$countInStock",
+                            categoryName: "$categoryDetails.categoryName"
+                        }
+                    }
+                ]);
                 if (allItems) {
                     res.status(200).json(allItems);
+                    console.log(allItems);
                 }
                 else {
                     res.status(409).json({ allItems: true });

@@ -13,12 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = require("jsonwebtoken");
-const moment_1 = __importDefault(require("moment"));
 const config_1 = __importDefault(require("../../config"));
 const admin_model_1 = __importDefault(require("../../models/admin/admin.model"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const order_model_1 = __importDefault(require("../../models/order/order.model"));
 const user_model_1 = __importDefault(require("../../models/user/user.model"));
+const moment_1 = __importDefault(require("moment"));
 class AdminController {
     constructor() {
         this.createToken = (user) => {

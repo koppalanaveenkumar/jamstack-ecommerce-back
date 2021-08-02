@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { compare, hash } from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
-import moment from "moment";
+
 import config from "../../config";
 import adminModel from '../../models/admin/admin.model';
 import bcrypt from 'bcryptjs'
 import orderModel from '../../models/order/order.model';
 import userModel from '../../models/user/user.model';
+import moment from 'moment';
 
 export default class AdminController{
     public createToken = (user: any) => {
@@ -51,10 +52,7 @@ export default class AdminController{
         try{
             const userEmail: any = await adminModel.findOne({email: req.body.email});
             if(userEmail) {
-                const comparePassword = await bcrypt.compareSync(
-                    req.body.password,
-                    userEmail['password']
-                );
+                const comparePassword = await bcrypt.compareSync(req.body.password,userEmail['password']);
                 if(comparePassword) {
                     const updateTimesstamp = await adminModel.findOneAndUpdate(
                         { _id: userEmail["_id"]},
@@ -102,6 +100,8 @@ export default class AdminController{
             res.status(500).json(err);
         }
     }
+
+
 
 
     // Users List

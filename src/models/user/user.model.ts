@@ -29,10 +29,9 @@ const userSchema = new Schema({
     isActive:{
         type: Schema.Types.Boolean,
         default: true,
-        required: true,
     },
     lastLoggedIn: {
-        type: Schema.Types.String
+        type: Schema.Types.String,
     }
 })
 

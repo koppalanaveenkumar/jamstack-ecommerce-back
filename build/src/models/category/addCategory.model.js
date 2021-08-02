@@ -4,7 +4,6 @@ const mongoose_1 = require("mongoose");
 const addItemSchema = new mongoose_1.Schema({
     categoryId: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: "category",
         required: true
     },
     productName: {

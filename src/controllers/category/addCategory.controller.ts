@@ -16,27 +16,61 @@ export default class addCategoryController {
     }
 
     public addCategoryItem = async(req: any, res: Response) =>{
-        let product = new addCategoryItemModel(req.body);
         try{
-            const products = await product.save();
-            if(products){
-                res.status(201).json("done")
+            let categoryId = await categoryModel.findById(req.body["categoryId"])
+            if(categoryId){
+                let product = new addCategoryItemModel(req.body);
+                    const products = await product.save();
+                    if(products){
+                        res.status(201).json("done")
+                    }
+                    else {
+                        res.status(409).json({Error: "Something went wrong"})
+                    }
+                
+            } else {
+                res.status(404).send({categoryId: "Not Found"})
             }
-            else {
-                res.status(409).json({Error: "Something went wrong"})
-            }
-        } catch(err){
-            console.log(err);
-            res.status(500).json(err);
-        }
+    } catch(err){
+        console.log(err);
+        res.status(500).json(err);
+    }
+        
     }
 
 
     public allItems = async(req: Request, res: Response) =>{
         try{
-            const allItems = await addCategoryItemModel.find({});
+            const allItems = await addCategoryItemModel.aggregate([
+                {
+                    $lookup: {
+                        from: "categories",
+                        localField: "categoryId",
+                        foreignField: "_id",
+                        as: "categoryDetails"
+                    }
+                },
+                {
+                    $unwind: {
+                        path: "$categoryDetails",
+                        preserveNullAndEmptyArrays: true
+                    }
+                },
+                {
+                    $project: {
+                        title: "$productName",
+                        description: "$description",
+                        brand: "$brand",
+                        color: "$color",
+                        price: "$price",
+                        countInStock: "$countInStock",
+                        categoryName: "$categoryDetails.categoryName"
+                    }
+                }
+            ])
             if(allItems) {
                 res.status(200).json(allItems)
+                console.log(allItems)
             }
             else{
                 res.status(409).json({allItems: true});
