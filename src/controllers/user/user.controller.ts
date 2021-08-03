@@ -66,7 +66,10 @@ export default class UserController{
                         res.status(200).json({
                             auth: true,
                             token: tokenData,
-                            user: user["email"]
+                            email: user["email"],
+                            user: user["firstName"]  + " " + user["lastName"],
+                            isUser: user["isUser"],
+                            isActive: user["isActive"]
                         });
                     }
                 } else {

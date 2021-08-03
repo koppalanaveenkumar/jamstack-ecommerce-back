@@ -177,7 +177,7 @@
         "/category/addCategory": {
             "post": {
                 "tags": [
-                    "category"
+                    "Category"
                 ],
                 "summary": "Create new Category",
                 "description": "",
@@ -212,10 +212,10 @@
             }
         },
 
-        "/category/addItem": {
+        "/category/addProduct": {
             "post": {
                 "tags": [
-                    "category"
+                    "Category"
                 ],
                 "summary": "Add Item",
                 "description": "",
@@ -225,7 +225,12 @@
                     "application/xml"
                 ],
                 "parameters": [
-                    
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "in": "body",
                         "name": "body",
@@ -269,10 +274,10 @@
             }
         },
 
-        "/category/allItems/{id}": {
+        "/category/categoryProducts/{id}": {
             "get": {
                 "tags": [
-                    "category"
+                    "Category"
                 ],
                 "summary": "Get All Category",
                 "description": "",
@@ -280,6 +285,18 @@
                 "produces": [
                     "application/json",
                     "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }   
+                    }
                 ],
                 "responses": {}
             }
@@ -559,12 +576,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "in": "body",
                         "name": "body",
                         "description": "verify user _id",
@@ -614,10 +625,10 @@
                 },
                 "parameters": [
                     {
-                        "in" : "Authorization",
-                        "name": "Authorization",
-                        "type" : "bearer",
-                        "key": "token"
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
                     },
                     {
                         "in": "body",

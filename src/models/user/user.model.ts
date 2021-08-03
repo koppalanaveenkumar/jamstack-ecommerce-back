@@ -26,9 +26,9 @@ const userSchema = new Schema({
         type: Schema.Types.String,
         required: 'Password is required'
     },
-    isAdmin:{
+    isUser:{
         type: Schema.Types.Boolean,
-        default: false,
+        default: true,
     },
     isActive:{
         type: Schema.Types.Boolean,

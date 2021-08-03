@@ -27,9 +27,9 @@ const userSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.String,
         required: 'Password is required'
     },
-    isAdmin: {
+    isUser: {
         type: mongoose_1.Schema.Types.Boolean,
-        default: false,
+        default: true,
     },
     isActive: {
         type: mongoose_1.Schema.Types.Boolean,

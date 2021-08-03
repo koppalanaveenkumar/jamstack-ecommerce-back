@@ -63,17 +63,19 @@ class AdminController {
         });
         this.authenticate = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const userEmail = yield admin_model_1.default.findOne({ email: req.body.email });
-                if (userEmail) {
-                    const comparePassword = yield bcryptjs_1.default.compareSync(req.body.password, userEmail['password']);
+                const user = yield admin_model_1.default.findOne({ email: req.body.email });
+                if (user) {
+                    const comparePassword = yield bcryptjs_1.default.compareSync(req.body.password, user['password']);
                     if (comparePassword) {
-                        const updateTimesstamp = yield admin_model_1.default.findOneAndUpdate({ _id: userEmail["_id"] }, { $set: { lastLoggedIn: moment_1.default().unix() } }, { new: true });
+                        const updateTimesstamp = yield admin_model_1.default.findOneAndUpdate({ _id: user["_id"] }, { $set: { lastLoggedIn: moment_1.default().unix() } }, { new: true });
                         if (updateTimesstamp) {
                             const tokenData = this.createToken(updateTimesstamp);
                             res.status(200).json({
                                 auth: true,
                                 token: tokenData,
-                                email: userEmail["email"],
+                                email: user["email"],
+                                username: user["username"],
+                                isAdmin: user["isAdmin"]
                             });
                         }
                     }

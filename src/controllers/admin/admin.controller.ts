@@ -50,12 +50,12 @@ export default class AdminController{
 
     public authenticate = async (req: Request, res: Response) =>{
         try{
-            const userEmail: any = await adminModel.findOne({email: req.body.email});
-            if(userEmail) {
-                const comparePassword = await bcrypt.compareSync(req.body.password,userEmail['password']);
+            const user: any = await adminModel.findOne({email: req.body.email});
+            if(user) {
+                const comparePassword = await bcrypt.compareSync(req.body.password,user['password']);
                 if(comparePassword) {
                     const updateTimesstamp = await adminModel.findOneAndUpdate(
-                        { _id: userEmail["_id"]},
+                        { _id: user["_id"]},
                         { $set: { lastLoggedIn: moment().unix()} },
                         { new: true }
                     );
@@ -64,7 +64,9 @@ export default class AdminController{
                         res.status(200).json({
                             auth: true,
                             token: tokenData,
-                            email: userEmail["email"],
+                            email: user["email"],
+                            username: user["username"],
+                            isAdmin: user["isAdmin"]
                         });
                     }
                 } else {
