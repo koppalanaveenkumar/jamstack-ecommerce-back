@@ -34,12 +34,12 @@ class UserController {
                 try {
                     const email = yield user_model_1.default.findOne({ email: req.body.email });
                     if (email) {
-                        res.status(409).json({ email: true });
+                        res.status(406).json({ email: true });
                     }
                     else {
                         const phoneNo = yield user_model_1.default.findOne({ phoneNo: req.body.phoneNo });
                         if (phoneNo) {
-                            res.status(409).json({ phoneNo: true });
+                            res.status(406).json({ phoneNo: true });
                         }
                         else {
                             const hashPassword = yield bcryptjs_1.default.hashSync(req.body.password, 10);

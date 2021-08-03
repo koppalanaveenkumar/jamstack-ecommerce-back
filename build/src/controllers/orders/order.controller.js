@@ -53,22 +53,8 @@ class OrderController {
                 res.status(500).json(err);
             }
         });
-        // public order = async (req: Request, res: Response)=>{
-        //     let orders = new orderModel(req.body)
-        //     try{
-        //         let order = await orders.save();
-        //         if(order){
-        //             res.status(201).json('done')
-        //         }
-        //         else{
-        //             res.status(404).json({message : "Something went wrong"})
-        //         }
-        //     } catch(err){
-        //         console.log(err);
-        //         res.status(500).json(err);
-        //     } 
-        // }
         this.getUserOrders = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            console.log(req['tokenId']);
             try {
                 const orders = yield order_model_1.default.aggregate([
                     {
@@ -93,7 +79,7 @@ class OrderController {
                     {
                         $lookup: {
                             from: "categoryItems",
-                            localField: "productId",
+                            localField: "categoryId",
                             foreignField: "_id",
                             as: "categoryDetails"
                         }

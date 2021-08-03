@@ -5,15 +5,10 @@ const orderSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: 'user Id is required',
     },
-    productIds: [{
-        product1 : {
-            type: Schema.Types.ObjectId,
+    products: {
+            type: Array,
             required: 'Product Id is required',
         },
-        product2 : {
-            type: Schema.Types.ObjectId
-        }
-    }],
     quantity: {
         type: Schema.Types.Number,
         required: "Quantity is required"

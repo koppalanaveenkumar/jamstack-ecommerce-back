@@ -120,7 +120,13 @@ export default class AdminController{
 
     public getUserById = async(req: Request, res: Response)=>{
         try{
-            const user: any = await userModel.findById(req.params.userId);
+            const user: any = await userModel.findById(req.params.userId)
+            .select(`
+                firstName
+                lastName
+                email
+                phoneNo
+            `);
             if(user){
                 res.status(200).json(user);
             } else {

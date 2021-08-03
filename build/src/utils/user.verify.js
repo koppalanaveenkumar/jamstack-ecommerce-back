@@ -19,42 +19,48 @@ const userScret = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     console.log(req.headers);
     const reqToken = req.headers && req.headers.authorization || '';
     const token = reqToken.split(' ');
-    if (token && token.length === 2) {
-        const matchToken = token[1];
-        const verified = jsonwebtoken_1.verify(matchToken, config_1.default.USER_JWT_SECRET);
-        if (verified) {
-            if (token) {
-                const decoded = jsonwebtoken_1.decode(matchToken);
-                console.log(decoded);
-                if (decoded) {
-                    try {
-                        const adminDetails = yield user_model_1.default.findById(decoded._id);
-                        if (adminDetails) {
-                            req['tokenId'] = decoded._id;
-                            next();
+    try {
+        if (token && token.length === 2) {
+            const matchToken = token[1];
+            const verified = jsonwebtoken_1.verify(matchToken, config_1.default.USER_JWT_SECRET);
+            if (verified) {
+                if (token) {
+                    const decoded = jsonwebtoken_1.decode(matchToken);
+                    console.log(decoded);
+                    if (decoded) {
+                        try {
+                            const adminDetails = yield user_model_1.default.findById(decoded._id);
+                            if (adminDetails) {
+                                req['tokenId'] = decoded._id;
+                                next();
+                            }
+                            else {
+                                res.status(401).json({ token: true });
+                            }
                         }
-                        else {
-                            res.status(401).json({ token: true });
+                        catch (err) {
+                            console.log(err);
                         }
                     }
-                    catch (err) {
-                        console.log(err);
+                    else {
+                        console.log({ err: "decoded" });
                     }
                 }
                 else {
-                    console.log({ err: "decoded" });
+                    console.log({ err: "token" });
                 }
             }
             else {
-                console.log({ err: "token" });
+                res.status(401).json({ verified: true });
             }
         }
         else {
-            res.status(401).json({ verified: true });
+            res.status(401).json({ token: true });
         }
     }
-    else {
-        res.status(401).json({ token: true });
+    catch (err) {
+        console.log(err);
+        res.status(500).json(err);
     }
 });
 exports.default = userScret;

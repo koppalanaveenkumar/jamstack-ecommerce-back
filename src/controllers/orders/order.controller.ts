@@ -45,23 +45,9 @@ export default class OrderController{
         }
     }
 
-    // public order = async (req: Request, res: Response)=>{
-    //     let orders = new orderModel(req.body)
-    //     try{
-    //         let order = await orders.save();
-    //         if(order){
-    //             res.status(201).json('done')
-    //         }
-    //         else{
-    //             res.status(404).json({message : "Something went wrong"})
-    //         }
-    //     } catch(err){
-    //         console.log(err);
-    //         res.status(500).json(err);
-    //     } 
-    // }
 
     public getUserOrders = async (req: any, res: Response) =>{
+        console.log(req['tokenId'])
         try{
             const orders = await orderModel.aggregate([
                 {
@@ -86,7 +72,7 @@ export default class OrderController{
                 {
                     $lookup : {
                         from: "categoryItems",
-                        localField: "productId",
+                        localField: "categoryId",
                         foreignField: "_id",
                         as: "categoryDetails"
                     }

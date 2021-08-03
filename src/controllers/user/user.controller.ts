@@ -22,11 +22,11 @@ export default class UserController{
             try{
                 const email = await userModel.findOne({ email: req.body.email });
                 if(email) {
-                    res.status(409).json({ email: true })
+                    res.status(406).json({ email: true })
                 } else {
                     const phoneNo = await userModel.findOne({ phoneNo: req.body.phoneNo });
                     if(phoneNo) {
-                        res.status(409).json({ phoneNo: true }) 
+                        res.status(406).json({ phoneNo: true }) 
                     }
                     else {
                         const hashPassword = await bcrypt.hashSync(req.body.password, 10);

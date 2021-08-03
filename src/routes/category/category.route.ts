@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import CategoryController from '../../controllers/category/createCategory.controller';
+import CategoryController from '../../controllers/category/categorys.controller';
+import getScret from '../../utils/admin.verify';
 
 class CategoryRouter {
     public router: Router = Router();
@@ -10,10 +11,9 @@ class CategoryRouter {
     }
 
     private initializeRouter(): void{
-        this.router.post('/addCategory', this.CategoryController.createCategory);
-        this.router.post('/addItem', this.CategoryController.addCategoryItem);
-        this.router.get('/allItemsByCategory/:categoryId', this.CategoryController.allItems);
-
+        this.router.post('/addCategory', getScret,this.CategoryController.createCategory);
+        this.router.post('/addProduct', getScret,this.CategoryController.addProduct);
+        this.router.get('/categoryProducts/:_id', this.CategoryController.categoryProducts);
     }
 }
 

@@ -132,7 +132,13 @@ class AdminController {
         });
         this.getUserById = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const user = yield user_model_1.default.findById(req.params.userId);
+                const user = yield user_model_1.default.findById(req.params.userId)
+                    .select(`
+                firstName
+                lastName
+                email
+                phoneNo
+            `);
                 if (user) {
                     res.status(200).json(user);
                 }

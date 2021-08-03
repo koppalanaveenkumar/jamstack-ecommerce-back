@@ -6,15 +6,10 @@ const orderSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.ObjectId,
         required: 'user Id is required',
     },
-    productIds: [{
-            product1: {
-                type: mongoose_1.Schema.Types.ObjectId,
-                required: 'Product Id is required',
-            },
-            product2: {
-                type: mongoose_1.Schema.Types.ObjectId
-            }
-        }],
+    products: {
+        type: Array,
+        required: 'Product Id is required',
+    },
     quantity: {
         type: mongoose_1.Schema.Types.Number,
         required: "Quantity is required"

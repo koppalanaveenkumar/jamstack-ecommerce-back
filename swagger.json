@@ -101,7 +101,7 @@
                 ],
                 "parameters": [
                     {
-                        "name": "barertoken",
+                        "name": "authorization",
                         "in": "header",
                         "required": true,
                         "type": "string"
@@ -188,6 +188,12 @@
                 ],
                 "parameters": [
                     {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "in": "body",
                         "name": "body",
                         "description": "get Instructor details",
@@ -219,6 +225,7 @@
                     "application/xml"
                 ],
                 "parameters": [
+                    
                     {
                         "in": "body",
                         "name": "body",
@@ -262,7 +269,7 @@
             }
         },
 
-        "/category/allItems": {
+        "/category/allItems/{id}": {
             "get": {
                 "tags": [
                     "category"
@@ -292,6 +299,12 @@
                     "application/xml"
                 ],
                 "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "in": "body",
                         "name": "body",
@@ -351,6 +364,12 @@
                 ],
                 "parameters": [
                     {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "in": "body",
                         "name": "body",
                         "description": "Get user Ordersid",
@@ -383,6 +402,12 @@
                     "application/xml"
                 ],
                 "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "in": "body",
                         "name": "body",
@@ -533,6 +558,12 @@
                     "application/xml"
                 ],
                 "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "in": "body",
                         "name": "body",

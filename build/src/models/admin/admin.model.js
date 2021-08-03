@@ -22,11 +22,7 @@ const adminSchema = new mongoose_1.Schema({
     isAdmin: {
         type: mongoose_1.Schema.Types.Boolean,
         default: true,
-        required: true,
-    },
-    lastLoggedIn: {
-        type: mongoose_1.Schema.Types.String
     }
-});
+}, { timestamps: true });
 exports.default = mongoose_1.model('admin', adminSchema);
 //# sourceMappingURL=admin.model.js.map
