@@ -21,17 +21,17 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_json_1 = __importDefault(require("../swagger.json"));
 const admin_route_1 = __importDefault(require("./routes/admin.route"));
 const category_route_1 = __importDefault(require("./routes/category/category.route"));
-const addItem_route_1 = __importDefault(require("./routes/category/addItem.route"));
+// import AddCategoryRouter from './routes/category/addItem.route'
 const user_route_1 = __importDefault(require("./routes/user/user.route"));
-const order_model_1 = __importDefault(require("./routes/orders/order.model"));
+const order_route_1 = __importDefault(require("./routes/orders/order.route"));
 const formData = require('express-form-data');
 class App {
     constructor(port) {
         this.app = express_1.default();
         this.adminRouter = new admin_route_1.default();
         this.categoryRouter = new category_route_1.default();
-        this.addCategoryRouter = new addItem_route_1.default();
-        this.OrderRouter = new order_model_1.default();
+        // private addCategoryRouter: AddCategoryRouter = new AddCategoryRouter();
+        this.OrderRouter = new order_route_1.default();
         this.UserRouter = new user_route_1.default();
         this.config = () => {
             this.app.use(cors_1.default());
@@ -66,7 +66,7 @@ class App {
         this.initializeRoutes = () => {
             this.app.use('/admin', this.adminRouter.router);
             this.app.use('/category', this.categoryRouter.router);
-            this.app.use('/addCategory', this.addCategoryRouter.router);
+            // this.app.use('/addCategory', this.categoryRouter.router)
             this.app.use('/order', this.OrderRouter.router);
             this.app.use('/user', this.UserRouter.router);
             // Swagger Documentation

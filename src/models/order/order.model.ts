@@ -1,15 +1,19 @@
 import { Schema, model } from 'mongoose';
 
 const orderSchema = new Schema({
-    productId: {
-        type: Schema.Types.ObjectId,
-        ref: 'categoryItems',
-        required: true,
-    },
     userId: {
         type: Schema.Types.ObjectId,
-        required: true,
+        required: 'user Id is required',
     },
+    productIds: [{
+        product1 : {
+            type: Schema.Types.ObjectId,
+            required: 'Product Id is required',
+        },
+        product2 : {
+            type: Schema.Types.ObjectId
+        }
+    }],
     quantity: {
         type: Schema.Types.Number,
         required: "Quantity is required"
@@ -42,13 +46,15 @@ const orderSchema = new Schema({
     },
     status: {
         type: Schema.Types.String,
-        required: 'Status Required',
         default: 'Pending'
     },
     dateOrderd: {
         type: Schema.Types.Date,
         default: new Date()
+    },
+    paymentId: {
+        type: Schema.Types.String,
     }
 })
 
-export default model('orders', orderSchema);
+export default model('order', orderSchema);

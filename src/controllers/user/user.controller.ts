@@ -32,10 +32,6 @@ export default class UserController{
                         const hashPassword = await bcrypt.hashSync(req.body.password, 10);
                         const requestBody = {
                             ...req.body,
-                            // firstName: req.body.firstName,
-                            // lastName: req.body.lastName,
-                            // email: req.body.email,
-                            // phoneNo: req.body.phoneNo,
                             password: hashPassword,
                             lastLoggedIn: moment().unix(),
                             lastUpdatedAt: Date.now()

@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const addItemSchema = new Schema({
+const categoryItemsSchema = new Schema({
     categoryId: {
         type : Schema.Types.ObjectId,
         required : true
@@ -39,7 +39,7 @@ const addItemSchema = new Schema({
     },
     createdAt: {
         type: Schema.Types.Date,
-        default: Date.now
+        default: Date.now()
     },
 })
-export default model('categoryItems', addItemSchema);
+export default model('categoryItem', categoryItemsSchema);

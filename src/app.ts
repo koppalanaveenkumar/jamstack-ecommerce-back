@@ -7,9 +7,9 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json'
 import AdminRouter from './routes/admin.route';
 import CategoryRouter from './routes/category/category.route';
-import AddCategoryRouter from './routes/category/addItem.route'
+// import AddCategoryRouter from './routes/category/addItem.route'
 import UserRouter from './routes/user/user.route'
-import OrderRouter from './routes/orders/order.model'
+import OrderRouter from './routes/orders/order.route'
 const formData = require('express-form-data');
 
 export default class App{
@@ -17,7 +17,7 @@ export default class App{
     public port: number;
     private adminRouter: AdminRouter = new AdminRouter();
     private categoryRouter: CategoryRouter = new CategoryRouter();
-    private addCategoryRouter: AddCategoryRouter = new AddCategoryRouter();
+    // private addCategoryRouter: AddCategoryRouter = new AddCategoryRouter();
     private OrderRouter: OrderRouter = new OrderRouter();
     private UserRouter: UserRouter = new UserRouter();
     client: any;
@@ -63,7 +63,7 @@ export default class App{
     private initializeRoutes = () =>{
         this.app.use('/admin', this.adminRouter.router)
         this.app.use('/category', this.categoryRouter.router)
-        this.app.use('/addCategory', this.addCategoryRouter.router)
+        // this.app.use('/addCategory', this.categoryRouter.router)
         this.app.use('/order', this.OrderRouter.router)
         this.app.use('/user', this.UserRouter.router)
 

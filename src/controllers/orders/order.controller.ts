@@ -8,6 +8,7 @@ import { sign, verify } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 // import { Promise } from "mongoose";
 import config from "../../config";
+import { Types } from "mongoose";
 
 export default class OrderController{
     public createToken = (order: any) =>{
@@ -20,34 +21,123 @@ export default class OrderController{
         return sign(dataStoreInToken, config.USER_JWT_SECRET, { expiresIn})
     };
     
-    public order = async (req: Request, res: Response)=>{
-        let orders = new orderModel(req.body)
+    public createOrder = async (req: any, res: Response) =>{
         try{
-            let order = await orders.save();
-            if(order){
-                res.status(201).json('done')
-            }
-            else{
-                res.status(404).json({message : "Something went wrong"})
-            }
+            const userDetails : any = await userModel.findById(req["tokenId"], {password: 0,});
+            if(userDetails) {
+                    const order = await orderModel.create({
+                        ...req.body,
+                        userId : req['tokenId'],
+                    })
+                    if(order) {
+                        res.status(201).json("done");
+                    } else {
+                        console.log(Error);
+                        res.status(404).json("Something wrong")
+                    }
+                } else {
+                    res.status(401).json({tokenId : true})
+                console.log(Error);
+                }
         } catch(err){
             console.log(err);
-            res.status(500).json(err);
-        } 
-    }
-
-    public getUserOrders = async(req: Request, res: Response) =>{
-        try{
-            const user = await orderModel.find({userId: req.body.userId});
-            if(user){
-                res.status(200).json(user);
-            } else {
-                res.status(409).json({user: true})
-            }
-        } catch(err){
-            res.status(500).json(err);
+            res.status(500).json(err)
         }
     }
+
+    // public order = async (req: Request, res: Response)=>{
+    //     let orders = new orderModel(req.body)
+    //     try{
+    //         let order = await orders.save();
+    //         if(order){
+    //             res.status(201).json('done')
+    //         }
+    //         else{
+    //             res.status(404).json({message : "Something went wrong"})
+    //         }
+    //     } catch(err){
+    //         console.log(err);
+    //         res.status(500).json(err);
+    //     } 
+    // }
+
+    public getUserOrders = async (req: any, res: Response) =>{
+        try{
+            const orders = await orderModel.aggregate([
+                {
+                    $match : {
+                        userId : Types.ObjectId(req['tokenId'])
+                    }
+                },
+                {
+                    $lookup : {
+                        from: "users",
+                        localField: "userId",
+                        foreignField: "_id",
+                        as: "userDetails"
+                    }
+                },
+                {
+                    $unwind : {
+                        path: "$userDetails",
+                        preserveNullAndEmptyArrays : true,
+                    }
+                },
+                {
+                    $lookup : {
+                        from: "categoryItems",
+                        localField: "productId",
+                        foreignField: "_id",
+                        as: "categoryDetails"
+                    }
+                },
+                {
+                    $unwind : {
+                        path: "$categoryDetails",
+                        preserveNullAndEmptyArrays : true,
+                    }
+                },
+                {
+                    project: {
+                        productName: "$categoryDetails.productName",
+                        firstName : "$userDetails.firstName",
+                        lastName: "$userDetails.lastName",
+                        email : "$userDetails.email",
+                        quantity: "$quantity",
+                        shippingAddress1 : "$shippingAddress1",
+                        shippingAddress2 : "$shippingAddress2",
+                        city: "$city",
+                        zip : "$zip",
+                        country: "$country",
+                        totalPrice: "$totalPrice",
+                        status: "$status",
+                        phoneNo : "$phoneNo",
+                    }
+                }
+            ])
+            if(orders) {
+                res.status(200).json(orders);
+            } else {
+                console.log(Error);
+            }
+        } catch(error){
+            console.log(error);
+            res.status(500).json(error);
+        }
+    }
+
+    // public getUserOrders = async(req: Request, res: Response) =>{
+    //     try{
+    //         const user = await orderModel.find({userId: req.body.userId});
+    //         if(user){
+    //             res.status(200).json(user);
+    //         } else {
+    //             res.status(409).json({user: true})
+    //         }
+    //     } catch(err){
+    //         res.status(500).json(err);
+    //     }
+    // }
 
     public addCart = async (req: Request, res: Response) => {
         let orders = new userCartModel(req.body)

@@ -2,15 +2,19 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const orderSchema = new mongoose_1.Schema({
-    productId: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'categoryItems',
-        required: true,
-    },
     userId: {
         type: mongoose_1.Schema.Types.ObjectId,
-        required: true,
+        required: 'user Id is required',
     },
+    productIds: [{
+            product1: {
+                type: mongoose_1.Schema.Types.ObjectId,
+                required: 'Product Id is required',
+            },
+            product2: {
+                type: mongoose_1.Schema.Types.ObjectId
+            }
+        }],
     quantity: {
         type: mongoose_1.Schema.Types.Number,
         required: "Quantity is required"
@@ -43,13 +47,15 @@ const orderSchema = new mongoose_1.Schema({
     },
     status: {
         type: mongoose_1.Schema.Types.String,
-        required: 'Status Required',
         default: 'Pending'
     },
     dateOrderd: {
         type: mongoose_1.Schema.Types.Date,
         default: new Date()
+    },
+    paymentId: {
+        type: mongoose_1.Schema.Types.String,
     }
 });
-exports.default = mongoose_1.model('orders', orderSchema);
+exports.default = mongoose_1.model('order', orderSchema);
 //# sourceMappingURL=order.model.js.map

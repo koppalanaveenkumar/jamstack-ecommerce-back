@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
-const addItemSchema = new mongoose_1.Schema({
+const categoryItemsSchema = new mongoose_1.Schema({
     categoryId: {
         type: mongoose_1.Schema.Types.ObjectId,
         required: true
@@ -40,8 +40,8 @@ const addItemSchema = new mongoose_1.Schema({
     },
     createdAt: {
         type: mongoose_1.Schema.Types.Date,
-        default: Date.now
+        default: Date.now()
     },
 });
-exports.default = mongoose_1.model('categoryItems', addItemSchema);
+exports.default = mongoose_1.model('categoryItem', categoryItemsSchema);
 //# sourceMappingURL=addCategory.model.js.map

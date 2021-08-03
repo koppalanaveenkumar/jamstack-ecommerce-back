@@ -145,7 +145,7 @@
             }
         },
 
-        "/admin/getUserById": {
+        "/admin/getUserById/{id}": {
             "get": {
                 "tags": [
                     "admin"
@@ -159,19 +159,14 @@
                 ],
                 "parameters": [
                     {
-                        "in": "body",
-                        "name": "body",
+                        "in": "path",
+                        "name": "id",
                         "description": "Get user By id",
                         "required": true,
                         "schema": {
-                            "type": "object",
-                            "properties": {
-                                "_id" : {
-                                    "type": "string"
-                                }
-                            }
-                            
-                        }
+                            "type": "integer",
+                            "format" : "int64"
+                        }      
                     }
                 ],
                 "responses": {}
@@ -211,7 +206,7 @@
             }
         },
 
-        "/addCategory/addItem": {
+        "/category/addItem": {
             "post": {
                 "tags": [
                     "category"
@@ -267,7 +262,7 @@
             }
         },
 
-        "/addCategory/allItems": {
+        "/category/allItems": {
             "get": {
                 "tags": [
                     "category"

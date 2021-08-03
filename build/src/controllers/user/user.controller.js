@@ -43,12 +43,7 @@ class UserController {
                         }
                         else {
                             const hashPassword = yield bcryptjs_1.default.hashSync(req.body.password, 10);
-                            const requestBody = Object.assign(Object.assign({}, req.body), { 
-                                // firstName: req.body.firstName,
-                                // lastName: req.body.lastName,
-                                // email: req.body.email,
-                                // phoneNo: req.body.phoneNo,
-                                password: hashPassword, lastLoggedIn: moment_1.default().unix(), lastUpdatedAt: Date.now() });
+                            const requestBody = Object.assign(Object.assign({}, req.body), { password: hashPassword, lastLoggedIn: moment_1.default().unix(), lastUpdatedAt: Date.now() });
                             const user = yield user_model_1.default.create(requestBody);
                             if (user) {
                                 res.status(201).json("Done");
@@ -120,28 +115,6 @@ class UserController {
                 res.status(500).json(err);
             }
         });
-        // public changePassword = async (req: any, res: Response) => {
-        //     try{
-        //         const userEmail: any = await userModel.findOne({email: req.body.email});
-        //         if(userEmail){
-        //             if(bcrypt.compareSync(req.body.currentPassword, userEmail.password)){
-        //                 let updateUser = await userModel.updateOne({email: req.body.email}, {$set:{password: bcrypt.hashSync(req.body.newPassword, 10)}}, {new : true});
-        //                 if(updateUser){
-        //                         res.status(200).json("Password updated Successfully")
-        //                 } else {
-        //                     res.status(401).json({status: "Failed in update password"})
-        //                 }
-        //             } else {
-        //                 res.status(401).json({currentPassword: true});
-        //             }
-        //         } else {
-        //             res.status(409).json({email: true})
-        //         } 
-        //     } catch (err){
-        //         console.log(err)
-        //         res.status(500).json(err);
-        //     }
-        // }
         this.sendEmail = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = yield user_model_1.default.findOne({ email: req.body.email });

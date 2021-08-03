@@ -11,6 +11,8 @@ class CategoryRouter {
 
     private initializeRouter(): void{
         this.router.post('/addCategory', this.CategoryController.createCategory);
+        this.router.post('/addItem', this.CategoryController.addCategoryItem);
+        this.router.get('/allItemsByCategory/:categoryId', this.CategoryController.allItems);
 
     }
 }

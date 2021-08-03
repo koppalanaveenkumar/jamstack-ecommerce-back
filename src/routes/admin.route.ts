@@ -13,10 +13,9 @@ class AdminRouter {
         this.router.post('/addAdmin', this.adminController.createAdmin);
         this.router.post('/authenticate', this.adminController.authenticate);
         this.router.post('/changePassword', getScret,this.adminController.changePassword);
-
         // customers
         this.router.get('/allUsers', this.adminController.allUsers)
-        this.router.get('/getUserById', this.adminController.getUserById)
+        this.router.get('/getUserById/:userId', this.adminController.getUserById)
     }
 }
 

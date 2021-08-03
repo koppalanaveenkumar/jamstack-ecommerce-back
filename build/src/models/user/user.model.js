@@ -35,5 +35,5 @@ const userSchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.String,
     }
 });
-exports.default = mongoose_1.model('users', userSchema);
+exports.default = mongoose_1.model('user', userSchema);
 //# sourceMappingURL=user.model.js.map
