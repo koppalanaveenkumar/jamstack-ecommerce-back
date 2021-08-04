@@ -38,7 +38,6 @@ export default class App{
             res.header('Access-Control-Allow-Headers', 'Content-type, Accept');
             next();
         });
-
         this.mongooseConfig();
         this.initializeRoutes();
     }
@@ -52,7 +51,9 @@ export default class App{
     private mongooseConfig = async () =>{
         try{
             await connect(config.MONGO_URL, {
-                useNewUrlParser: true
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                useCreateIndex: true,
             });
             console.log("Connected to DB");
         } catch (error){

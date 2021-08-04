@@ -1,5 +1,0 @@
-    "tsc": "tsc",
-    "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
-    "prod": "tsc && node ./build/index.js",
-
-                const user = await adminModel.findOne({_id: req.params._id})

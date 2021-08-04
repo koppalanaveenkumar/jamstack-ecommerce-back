@@ -20,31 +20,27 @@ export default class AdminController{
         return sign(dataStoredInToken, config.ADMIN_JWT_SECRET, { expiresIn })
     }
     public createAdmin = async (req: Request, res: Response) => {
-        if(req.body.secret == "jamstack"){
-            try{
-                const email = await adminModel.findOne({
-                    email: req.body.email
-                })
-                if(email) {
-                    res.status(409).json({email: true})
-                } else {
-                    const hashedPassword = await bcrypt.hashSync(req.body.password, 10)
-                    const requestBody = {
-                        username: req.body.username,
-                        email: req.body.email,
-                        password: hashedPassword,
-                        lastLoggedIn: moment().unix()
-                    };
-                    const user: any = await adminModel.create(requestBody);
-                    if (user) {
-                        res.status(201).json("done");
-                    }
+        try{
+            const email = await adminModel.findOne({
+                email: req.body.email
+            })
+            if(email) {
+                res.status(409).json({email: true})
+            } else {
+                const hashedPassword = await bcrypt.hashSync(req.body.password, 10)
+                const requestBody = {
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: hashedPassword,
+                    lastLoggedIn: moment().unix()
+                };
+                const user: any = await adminModel.create(requestBody);
+                if (user) {
+                    res.status(201).json("done");
                 }
-            } catch (error) {
-                    res.status(500).json(error);
             }
-        } else {
-            res.status(409).json({ secret: true });
+        } catch (error) {
+            res.status(500).json(error);
         }
     }
 

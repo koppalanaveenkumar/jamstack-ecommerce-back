@@ -55,7 +55,9 @@ class App {
         this.mongooseConfig = () => __awaiter(this, void 0, void 0, function* () {
             try {
                 yield mongoose_1.connect(config_1.default.MONGO_URL, {
-                    useNewUrlParser: true
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true,
+                    useCreateIndex: true,
                 });
                 console.log("Connected to DB");
             }

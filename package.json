@@ -24,7 +24,6 @@
     "express-form-data": "^2.0.13",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.33",
     "mongodb": "^3.3.4",
     "mongoose": "^5.6.5",
     "nodemailer": "^6.6.3",

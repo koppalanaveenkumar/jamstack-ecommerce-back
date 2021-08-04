@@ -18,7 +18,6 @@ export default class UserController{
     }
 
     public addUser = async (req: Request, res: Response) =>{
-        if(req.body.secret == "jamstack") {
             try{
                 const email = await userModel.findOne({ email: req.body.email });
                 if(email) {
@@ -45,9 +44,6 @@ export default class UserController{
             } catch (err) {
                 res.status(500).json(err);
             }
-        } else {
-            res.status(409).json({secret:true});
-        }
     }
     
     public authenticate = async (req: Request, res: Response) =>{
