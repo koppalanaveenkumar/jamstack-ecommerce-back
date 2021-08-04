@@ -39,9 +39,6 @@
                                 },
                                 "password": {
                                     "type": "string"
-                                },
-                                "secret": {
-                                    "type": "string"
                                 }
                             }
                         }
@@ -528,9 +525,6 @@
                                     "type": "number"
                                 },
                                 "password": {
-                                    "type": "string"
-                                },
-                                "secret": {
                                     "type": "string"
                                 }
                             }
