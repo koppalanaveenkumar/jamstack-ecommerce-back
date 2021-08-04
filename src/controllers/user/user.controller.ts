@@ -18,32 +18,32 @@ export default class UserController{
     }
 
     public addUser = async (req: Request, res: Response) =>{
-            try{
-                const email = await userModel.findOne({ email: req.body.email });
-                if(email) {
-                    res.status(406).json({ email: true })
-                } else {
-                    const phoneNo = await userModel.findOne({ phoneNo: req.body.phoneNo });
-                    if(phoneNo) {
-                        res.status(406).json({ phoneNo: true }) 
-                    }
-                    else {
+        try{
+            const email = await userModel.findOne({ email: req.body.email });
+            if(email) {
+                res.status(406).json({ email: true })
+            } else {
+                const phoneNo = await userModel.findOne({ phoneNo: req.body.phoneNo });
+                if(phoneNo) {
+                    res.status(406).json({ phoneNo: true }) 
+                }
+                else {
                         const hashPassword = await bcrypt.hashSync(req.body.password, 10);
                         const requestBody = {
-                            ...req.body,
-                            password: hashPassword,
-                            lastLoggedIn: moment().unix(),
-                            lastUpdatedAt: Date.now()
-                        };
-                        const user : any = await userModel.create(requestBody);
-                        if(user){
-                            res.status(201).json("Done");
-                        }
+                        ...req.body,
+                        password: hashPassword,
+                        lastLoggedIn: moment().unix(),
+                        lastUpdatedAt: Date.now()
+                    };
+                    const user : any = await userModel.create(requestBody);
+                    if(user){
+                        res.status(201).json("Done");
                     }
                 }
-            } catch (err) {
-                res.status(500).json(err);
             }
+        } catch (err) {
+            res.status(500).json(err);
+        }
     }
     
     public authenticate = async (req: Request, res: Response) =>{
