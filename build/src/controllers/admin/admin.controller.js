@@ -31,34 +31,29 @@ class AdminController {
             return jsonwebtoken_1.sign(dataStoredInToken, config_1.default.ADMIN_JWT_SECRET, { expiresIn });
         };
         this.createAdmin = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            if (req.body.secret == "jamstack") {
-                try {
-                    const email = yield admin_model_1.default.findOne({
-                        email: req.body.email
-                    });
-                    if (email) {
-                        res.status(409).json({ email: true });
-                    }
-                    else {
-                        const hashedPassword = yield bcryptjs_1.default.hashSync(req.body.password, 10);
-                        const requestBody = {
-                            username: req.body.username,
-                            email: req.body.email,
-                            password: hashedPassword,
-                            lastLoggedIn: moment_1.default().unix()
-                        };
-                        const user = yield admin_model_1.default.create(requestBody);
-                        if (user) {
-                            res.status(201).json("done");
-                        }
-                    }
+            try {
+                const email = yield admin_model_1.default.findOne({
+                    email: req.body.email
+                });
+                if (email) {
+                    res.status(409).json({ email: true });
                 }
-                catch (error) {
-                    res.status(500).json(error);
+                else {
+                    const hashedPassword = yield bcryptjs_1.default.hashSync(req.body.password, 10);
+                    const requestBody = {
+                        username: req.body.username,
+                        email: req.body.email,
+                        password: hashedPassword,
+                        lastLoggedIn: moment_1.default().unix()
+                    };
+                    const user = yield admin_model_1.default.create(requestBody);
+                    if (user) {
+                        res.status(201).json("done");
+                    }
                 }
             }
-            else {
-                res.status(409).json({ secret: true });
+            catch (error) {
+                res.status(500).json(error);
             }
         });
         this.authenticate = (req, res) => __awaiter(this, void 0, void 0, function* () {

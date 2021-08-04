@@ -30,33 +30,28 @@ class UserController {
             return jsonwebtoken_1.sign(dataStoredToken, config_1.default.USER_JWT_SECRET, { expiresIn });
         };
         this.addUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            if (req.body.secret == "jamstack") {
-                try {
-                    const email = yield user_model_1.default.findOne({ email: req.body.email });
-                    if (email) {
-                        res.status(406).json({ email: true });
+            try {
+                const email = yield user_model_1.default.findOne({ email: req.body.email });
+                if (email) {
+                    res.status(406).json({ email: true });
+                }
+                else {
+                    const phoneNo = yield user_model_1.default.findOne({ phoneNo: req.body.phoneNo });
+                    if (phoneNo) {
+                        res.status(406).json({ phoneNo: true });
                     }
                     else {
-                        const phoneNo = yield user_model_1.default.findOne({ phoneNo: req.body.phoneNo });
-                        if (phoneNo) {
-                            res.status(406).json({ phoneNo: true });
-                        }
-                        else {
-                            const hashPassword = yield bcryptjs_1.default.hashSync(req.body.password, 10);
-                            const requestBody = Object.assign(Object.assign({}, req.body), { password: hashPassword, lastLoggedIn: moment_1.default().unix(), lastUpdatedAt: Date.now() });
-                            const user = yield user_model_1.default.create(requestBody);
-                            if (user) {
-                                res.status(201).json("Done");
-                            }
+                        const hashPassword = yield bcryptjs_1.default.hashSync(req.body.password, 10);
+                        const requestBody = Object.assign(Object.assign({}, req.body), { password: hashPassword, lastLoggedIn: moment_1.default().unix(), lastUpdatedAt: Date.now() });
+                        const user = yield user_model_1.default.create(requestBody);
+                        if (user) {
+                            res.status(201).json("Done");
                         }
                     }
                 }
-                catch (err) {
-                    res.status(500).json(err);
-                }
             }
-            else {
-                res.status(409).json({ secret: true });
+            catch (err) {
+                res.status(500).json(err);
             }
         });
         this.authenticate = (req, res) => __awaiter(this, void 0, void 0, function* () {
