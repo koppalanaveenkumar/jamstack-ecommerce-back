@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { sign } from 'jsonwebtoken';
 import config from '../../config'
 import categoryModel from '../../models/category/category.model';
-import addCategoryModel from '../../models/category/addCategory.model'
+import productModel from '../../models/category/product.model'
 import { Types } from 'mongoose';
 import adminModel from '../../models/admin/admin.model';
 
@@ -44,17 +44,30 @@ export default class CategoryController {
         }
     }
 
+    public allCategory = async(req: any, res: Response) =>{
+        try{
+            const category = await categoryModel.find({});
+            if(category){
+                res.status(200).json(category)
+                console.log(category);
+            } else {
+                res.status(404).json({category: true})
+            }
+        } catch(err){
+            res.status(500).json(err);
+        }
+    }
     public addProduct = async(req: any, res: Response) =>{
         try{
             const user: any = await adminModel.findById(req['tokenId']);
             if(user){
                 let categoryId = await categoryModel.findById(req.body["categoryId"])
                 if(categoryId){
-                    let product = await addCategoryModel.findOne({productName:req.body.productName});
+                    let product = await productModel.findOne({productName:req.body.productName});
                     if(product){
                         res.status(404).send({productName: true})
                     } else {
-                        let product = new addCategoryModel(req.body);
+                        let product = new productModel(req.body);
                             const products = await product.save();
                             if(products){
                                 res.status(201).json("done")
@@ -78,22 +91,68 @@ export default class CategoryController {
 
     public categoryProducts = async(req: Request, res: Response) =>{
         try{
-                const allItems: any = await addCategoryModel.find({categoryId:req.params._id})
-                    .select(`productName 
-                            description 
-                            brand 
-                            color 
-                            price 
-                            images 
-                            countInStock 
-                            manufacture
-                    `)
-                if(allItems){
-                res.status(200).json(allItems);
-                console.log(allItems)
-        } 
-    }catch(err){
+            const categoryProducts: any = await productModel.find({categoryId:req.params._id})
+                .select(`productName 
+                        description 
+                        brand 
+                        color 
+                        price 
+                        images 
+                        countInStock 
+                        manufacture
+                `)
+            if(categoryProducts){
+                res.status(200).json(categoryProducts);
+                console.log(categoryProducts)
+            } else {
+                res.status(404).json({categoryId: true});
+            }
+        }catch(err){
             res.status(500).json(err);
+        }
+    }
+
+
+    public getAllProducts = async(req: any, res: Response) =>{
+        try{
+            const allProducts : any = await productModel.aggregate([
+                {
+                    $lookup : {
+                        from: "categoryItems",
+                        localField: "categoryId",
+                        foreignField: "_id",
+                        as: "categoryDetails"
+                    }
+                },
+                {
+                    $unwind : {
+                        path: "$categoryDetails",
+                        preserveNullAndEmptyArrays : true,
+                    }
+                },
+
+                {
+                    project : {
+                        categoryName: "$categoryDetails.categoryName",
+                        productName: "$productName",
+                        description: "$description",
+                        brand: "$brand",
+                        color: "$color",
+                        price: "$price",
+                        images: "$images",
+                        countInStock: "$countInStock",
+                        manufacture: "$manufacture"
+                    }
+                }
+            ])
+            if(allProducts){
+                res.status(200).json(allProducts);
+            } else{
+                res.status(409).json({allProducts: true})
+            }
+        } catch(err){
+            res.status(500).json(err);
+            console.log(Error);
         }
     }
 }

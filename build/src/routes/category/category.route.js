@@ -14,8 +14,11 @@ class CategoryRouter {
     }
     initializeRouter() {
         this.router.post('/addCategory', admin_verify_1.default, this.CategoryController.createCategory);
+        this.router.get('/allCategory', this.CategoryController.allCategory);
+        //products
         this.router.post('/addProduct', admin_verify_1.default, this.CategoryController.addProduct);
         this.router.get('/categoryProducts/:_id', this.CategoryController.categoryProducts);
+        this.router.get('/getAllProducts', this.CategoryController.getAllProducts);
     }
 }
 exports.default = CategoryRouter;

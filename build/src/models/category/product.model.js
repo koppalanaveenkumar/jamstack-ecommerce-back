@@ -46,4 +46,4 @@ const categoryItemsSchema = new mongoose_1.Schema({
     timestamps: true
 });
 exports.default = mongoose_1.model('product', categoryItemsSchema);
-//# sourceMappingURL=addCategory.model.js.map
+//# sourceMappingURL=product.model.js.map

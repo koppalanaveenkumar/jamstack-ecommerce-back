@@ -12,8 +12,12 @@ class CategoryRouter {
 
     private initializeRouter(): void{
         this.router.post('/addCategory', getScret,this.CategoryController.createCategory);
+        this.router.get('/allCategory', this.CategoryController.allCategory);
+
+        //products
         this.router.post('/addProduct', getScret,this.CategoryController.addProduct);
         this.router.get('/categoryProducts/:_id', this.CategoryController.categoryProducts);
+        this.router.get('/getAllProducts', this.CategoryController.getAllProducts);
     }
 }
 

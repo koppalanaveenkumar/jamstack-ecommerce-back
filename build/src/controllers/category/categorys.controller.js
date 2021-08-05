@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = require("jsonwebtoken");
 const config_1 = __importDefault(require("../../config"));
 const category_model_1 = __importDefault(require("../../models/category/category.model"));
-const addCategory_model_1 = __importDefault(require("../../models/category/addCategory.model"));
+const product_model_1 = __importDefault(require("../../models/category/product.model"));
 const admin_model_1 = __importDefault(require("../../models/admin/admin.model"));
 class CategoryController {
     constructor() {
@@ -56,18 +56,33 @@ class CategoryController {
                 res.status(500).json(err);
             }
         });
+        this.allCategory = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const category = yield category_model_1.default.find({});
+                if (category) {
+                    res.status(200).json(category);
+                    console.log(category);
+                }
+                else {
+                    res.status(404).json({ category: true });
+                }
+            }
+            catch (err) {
+                res.status(500).json(err);
+            }
+        });
         this.addProduct = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = yield admin_model_1.default.findById(req['tokenId']);
                 if (user) {
                     let categoryId = yield category_model_1.default.findById(req.body["categoryId"]);
                     if (categoryId) {
-                        let product = yield addCategory_model_1.default.findOne({ productName: req.body.productName });
+                        let product = yield product_model_1.default.findOne({ productName: req.body.productName });
                         if (product) {
                             res.status(404).send({ productName: true });
                         }
                         else {
-                            let product = new addCategory_model_1.default(req.body);
+                            let product = new product_model_1.default(req.body);
                             const products = yield product.save();
                             if (products) {
                                 res.status(201).json("done");
@@ -93,23 +108,69 @@ class CategoryController {
         });
         this.categoryProducts = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const allItems = yield addCategory_model_1.default.find({ categoryId: req.params._id })
+                const categoryProducts = yield product_model_1.default.find({ categoryId: req.params._id })
                     .select(`productName 
-                            description 
-                            brand 
-                            color 
-                            price 
-                            images 
-                            countInStock 
-                            manufacture
-                    `);
-                if (allItems) {
-                    res.status(200).json(allItems);
-                    console.log(allItems);
+                        description 
+                        brand 
+                        color 
+                        price 
+                        images 
+                        countInStock 
+                        manufacture
+                `);
+                if (categoryProducts) {
+                    res.status(200).json(categoryProducts);
+                    console.log(categoryProducts);
+                }
+                else {
+                    res.status(404).json({ categoryId: true });
                 }
             }
             catch (err) {
                 res.status(500).json(err);
+            }
+        });
+        this.getAllProducts = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const allProducts = yield product_model_1.default.aggregate([
+                    {
+                        $lookup: {
+                            from: "categoryItems",
+                            localField: "categoryId",
+                            foreignField: "_id",
+                            as: "categoryDetails"
+                        }
+                    },
+                    {
+                        $unwind: {
+                            path: "$categoryDetails",
+                            preserveNullAndEmptyArrays: true,
+                        }
+                    },
+                    {
+                        project: {
+                            categoryName: "$categoryDetails.categoryName",
+                            productName: "$productName",
+                            description: "$description",
+                            brand: "$brand",
+                            color: "$color",
+                            price: "$price",
+                            images: "$images",
+                            countInStock: "$countInStock",
+                            manufacture: "$manufacture"
+                        }
+                    }
+                ]);
+                if (allProducts) {
+                    res.status(200).json(allProducts);
+                }
+                else {
+                    res.status(409).json({ allProducts: true });
+                }
+            }
+            catch (err) {
+                res.status(500).json(err);
+                console.log(Error);
             }
         });
     }

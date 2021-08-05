@@ -84,6 +84,30 @@
             }
         },
 
+        "/admin/adminCheck": {
+            "post": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "admin authenticate check",
+                "description": "",
+                "operationId": "admin authenticate check",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+
         "/admin/changePassword": {
             "post": {
                 "tags": [
@@ -126,30 +150,6 @@
             }
         },
 
-
-        "/admin/adminCheck": {
-            "post": {
-                "tags": [
-                    "admin"
-                ],
-                "summary": "admin authenticate check",
-                "description": "",
-                "operationId": "admin authenticate check",
-                "produces": [
-                    "application/json",
-                    "application/xml"
-                ],
-                "parameters": [
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {}
-            }
-        },
 
 
         "/admin/allUsers": {
@@ -233,6 +233,22 @@
                             }
                         }
                     }
+                ],
+                "responses": {}
+            }
+        },
+
+        "/category/allCategory": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Get All Users",
+                "description": "",
+                "operationId": "Get All Users",
+                "produces": [
+                    "application/json",
+                    "application/xml"
                 ],
                 "responses": {}
             }

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import adminModel from "../../models/admin/admin.model";
 import userModel from "../../models/user/user.model";
 import orderModel from "../../models/order/order.model";
-import addCategoryModel from "../../models/category/addCategory.model";
+import productModel from "../../models/category/product.model";
 import userCartModel from "../../models/order/userCart.model";
 import { sign, verify } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
@@ -71,7 +71,7 @@ export default class OrderController{
                 },
                 {
                     $lookup : {
-                        from: "categoryItems",
+                        from: "categors",
                         localField: "categoryId",
                         foreignField: "_id",
                         as: "categoryDetails"

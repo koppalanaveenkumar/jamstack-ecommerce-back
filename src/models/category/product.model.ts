@@ -41,5 +41,8 @@ const categoryItemsSchema = new Schema({
         type: Schema.Types.Date,
         default: Date.now()
     },
+},
+{
+    timestamps: true
 })
-export default model('categoryItem', categoryItemsSchema);
+export default model('product', categoryItemsSchema);

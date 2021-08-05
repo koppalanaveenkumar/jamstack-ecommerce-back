@@ -78,7 +78,7 @@ class OrderController {
                     },
                     {
                         $lookup: {
-                            from: "categoryItems",
+                            from: "categors",
                             localField: "categoryId",
                             foreignField: "_id",
                             as: "categoryDetails"
