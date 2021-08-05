@@ -13,6 +13,7 @@ class AdminRouter {
         this.router.post('/addAdmin', this.adminController.createAdmin);
         this.router.post('/authenticate', this.adminController.authenticate);
         this.router.post('/changePassword', getScret,this.adminController.changePassword);
+        this.router.post('/adminCheck', getScret,this.adminController.adminCheck);
         // customers
         this.router.get('/allUsers', this.adminController.allUsers)
         this.router.get('/getUserById/:userId', this.adminController.getUserById)

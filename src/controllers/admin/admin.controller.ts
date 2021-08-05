@@ -99,6 +99,24 @@ export default class AdminController{
         }
     }
 
+    public adminCheck = async (req: any, res: Response) => {
+        try{
+            const user: any = await adminModel.findById(req['tokenId']);
+            if(user){
+                res.status(200).json({
+                    email: user["email"],
+                    username: user["username"],
+                    isAdmin: user["isAdmin"]
+                });
+            } else {
+                res.status(401).json({username: true});
+            }
+        } catch (err){
+            console.log(err)
+            res.status(500).json(err);
+        }
+    }
+
 
 
 

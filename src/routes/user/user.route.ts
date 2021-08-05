@@ -13,9 +13,10 @@ class UserRouter {
     private initializeRouter(){
         this.router.post('/addUser', this.userController.addUser);
         this.router.post('/authenticate', this.userController.authenticate);
+        this.router.post('/userCheck', userScret,this.userController.userCheck);
         this.router.post('/changePassword', userScret,this.userController.changePassword);
         this.router.post('/sendEmail', this.userController.sendEmail);
-        this.router.post('/resetPassword', this.userController.resetPassword);
+        // this.router.post('/resetPassword', this.userController.resetPassword);
     }  
 }
 

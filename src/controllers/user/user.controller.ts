@@ -81,6 +81,26 @@ export default class UserController{
         }
     };
 
+
+    public userCheck = async (req: any, res: Response) => {
+        try{
+            const user: any = await userModel.findById(req['tokenId']);
+            if(user){
+                res.status(200).json({
+                    email: user["email"],
+                    user: user["firstName"]  + " " + user["lastName"],
+                    isActive: user["isActive"],
+                    isUser: user["isUser"]
+                });
+            } else {
+                res.status(401).json({username: true});
+            }
+        } catch (err){
+            console.log(err)
+            res.status(500).json(err);
+        }
+    }
+
     public changePassword = async (req: any, res: Response) => {
         try{
             const user: any = await userModel.findById(req['tokenId']);
@@ -123,10 +143,10 @@ export default class UserController{
                         await emailSenderService.sendEmail(updateUser, token);
                         res.status(200).json({status: 1, data: { message: "Sent Successfully"}});
                     } else {
-                        res.status(200).json({status: 0, data: { message: "Failed in sending email, Try again"}});
+                        res.status(409).json({status: 0, data: { message: "Failed in sending email, Try again"}});
                     }
             } else {
-                res.status(200).json({status: 0, data: { message: "Email not found"}})
+                res.status(401).json({status: 0, data: { message: "Email not found"}})
             }
         } catch (err){
             console.log(err);
@@ -134,45 +154,45 @@ export default class UserController{
         }
     }
 
-    public resetPassword = async (req: Request, res: Response) =>{
-        try{
-            const user: any = await userModel.findOne({
-                resetPasswordToken : req.body.token,
-                resetPasswordExpires : { $gt:Date.now()}
-            });
-            if(user) {
-                const hashedPassword = await bcrypt.hashSync(req.body.newPassword, 10);
-                if(hashedPassword) {
-                    const updatedUser = await userModel.findByIdAndUpdate(
-                        { _id: user["_id"]},
-                        {
-                            $set: {
-                                password: hashedPassword,
-                                resetPasswordToken : undefined,
-                                resetPasswordExpires : undefined,
-                            },
-                        },
-                        { upsert: true, new: true}
-                    );
-                    if(updatedUser) {
-                        res.status(200).json({
-                            status: 1, data : {message: "Password updated successfully"}
-                        })
-                    }
-                }
-            } else {
-                console.log(Error)
-                res.status(200).json({
-                    status: 0, 
-                    data : {
-                        errorDescription: "Password reset token is invalid or has expired.",
-                        error: "expired_token",
-                    }
-                })
-            }
-        } catch (error) {
-            console.log(error);
-            res.status(500).json(error);
-        }
-    }
+    // public resetPassword = async (req: Request, res: Response) =>{
+    //     try{
+    //         const user: any = await userModel.findOne({
+    //             resetPasswordToken : req.body.token,
+    //             resetPasswordExpires : { $gt:Date.now()}
+    //         });
+    //         if(user) {
+    //             const hashedPassword = await bcrypt.hashSync(req.body.newPassword, 10);
+    //             if(hashedPassword) {
+    //                 const updatedUser = await userModel.findByIdAndUpdate(
+    //                     { _id: user["_id"]},
+    //                     {
+    //                         $set: {
+    //                             password: hashedPassword,
+    //                             resetPasswordToken : undefined,
+    //                             resetPasswordExpires : undefined,
+    //                         },
+    //                     },
+    //                     { upsert: true, new: true}
+    //                 );
+    //                 if(updatedUser) {
+    //                     res.status(200).json({
+    //                         status: 1, data : {message: "Password updated successfully"}
+    //                     })
+    //                 }
+    //             }
+    //         } else {
+    //             console.log(Error)
+    //             res.status(200).json({
+    //                 status: 0, 
+    //                 data : {
+    //                     errorDescription: "Password reset token is invalid or has expired.",
+    //                     error: "expired_token",
+    //                 }
+    //             })
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         res.status(500).json(error);
+    //     }
+    // }
 }

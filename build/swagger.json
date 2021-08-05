@@ -121,6 +121,29 @@
                 "responses": {}
             }
         },
+        "/admin/adminCheck": {
+            "post": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "admin authenticate check",
+                "description": "",
+                "operationId": "admin authenticate check",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/admin/allUsers": {
             "get": {
                 "tags": [
@@ -191,6 +214,9 @@
                             "type": "object",
                             "properties": {
                                 "categoryName": {
+                                    "type": "string"
+                                },
+                                "imageUrl": {
                                     "type": "string"
                                 }
                             }
@@ -568,30 +594,41 @@
                 "responses": {}
             }
         },
+        "/user/userCheck": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "User authenticate check",
+                "description": "",
+                "operationId": "User authenticate check",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/user/changePassword": {
             "post": {
                 "tags": [
                     "User"
                 ],
-                "summary": "change password",
+                "summary": "change password authenticate",
                 "description": "",
-                "operationId": "change password",
+                "operationId": "change password authenticate",
                 "produces": [
                     "application/json",
                     "application/xml"
                 ],
-                "securityDefinitions": {
-                    "Bearer": {
-                        "type": "apiKey",
-                        "name": "Authorization",
-                        "in": "header"
-                    }
-                },
-                "JWT": {
-                    "type": "apiKey",
-                    "name": "token",
-                    "in": "header"
-                },
                 "parameters": [
                     {
                         "name": "authorization",
@@ -611,6 +648,37 @@
                                     "type": "string"
                                 },
                                 "newPassword": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/user/sendEmail": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Send Email",
+                "description": "",
+                "operationId": "Send Email",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Send Email",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
                                     "type": "string"
                                 }
                             }

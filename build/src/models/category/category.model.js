@@ -6,6 +6,10 @@ const categorySchema = new mongoose_1.Schema({
         type: mongoose_1.Schema.Types.String,
         required: 'Category name is required',
         unique: true
+    },
+    imageUrl: {
+        type: mongoose_1.Schema.Types.String,
+        required: 'Category image is required',
     }
 });
 exports.default = mongoose_1.model('categorie', categorySchema);

@@ -69,7 +69,7 @@ class EmailSenderService {
                         <div>
                             <img src="${logoPath}">
                             <div class="content">
-                                <h2>Hi ${data.firstname}, </h2>
+                                <h2>Hi ${data.firstName}, </h2>
                                 <p> A password reset for your account was requested.
                                     Please click the link below to change your password.
                                     Note that this link is valid for 24 hours.After the time

@@ -112,6 +112,25 @@ class AdminController {
                 res.status(500).json(err);
             }
         });
+        this.adminCheck = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield admin_model_1.default.findById(req['tokenId']);
+                if (user) {
+                    res.status(200).json({
+                        email: user["email"],
+                        username: user["username"],
+                        isAdmin: user["isAdmin"]
+                    });
+                }
+                else {
+                    res.status(401).json({ username: true });
+                }
+            }
+            catch (err) {
+                console.log(err);
+                res.status(500).json(err);
+            }
+        });
         // Users List
         this.allUsers = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
