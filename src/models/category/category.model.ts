@@ -5,6 +5,10 @@ const categorySchema = new Schema({
         type: Schema.Types.String,
         required: 'Category name is required',
         unique: true
+    },
+    imageUrl : {
+        type: Schema.Types.String,
+        required: 'Category image is required',
     }
 })
 

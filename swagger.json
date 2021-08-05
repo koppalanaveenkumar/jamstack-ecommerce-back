@@ -200,6 +200,9 @@
                             "properties": {
                                 "categoryName" : {
                                     "type": "string"
+                                },
+                                "imageUrl" : {
+                                    "type": "string"
                                 }
                             }
                         }
