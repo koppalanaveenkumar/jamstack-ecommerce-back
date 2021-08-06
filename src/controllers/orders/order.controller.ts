@@ -65,22 +65,8 @@ export default class OrderController{
                     }
                 },
                 {
-                    $lookup : {
-                        from: "products",
-                        localField: "productId",
-                        foreignField: "_id",
-                        as: "productDetails"
-                    }
-                },
-                {
-                    $unwind : {
-                        path: "$productDetails",
-                        preserveNullAndEmptyArrays : true,
-                    }
-                },
-                {
                     $project: {
-                        productName: "$productDetails.productName",
+                        products: "$products",
                         firstName : "$userDetails.firstName",
                         lastName: "$userDetails.lastName",
                         email : "$userDetails.email",
