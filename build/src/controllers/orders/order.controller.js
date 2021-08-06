@@ -16,7 +16,6 @@ const user_model_1 = __importDefault(require("../../models/user/user.model"));
 const order_model_1 = __importDefault(require("../../models/order/order.model"));
 const userCart_model_1 = __importDefault(require("../../models/order/userCart.model"));
 const jsonwebtoken_1 = require("jsonwebtoken");
-// import { Promise } from "mongoose";
 const config_1 = __importDefault(require("../../config"));
 const mongoose_1 = require("mongoose");
 class OrderController {
@@ -78,21 +77,21 @@ class OrderController {
                     },
                     {
                         $lookup: {
-                            from: "categors",
-                            localField: "categoryId",
+                            from: "products",
+                            localField: "products",
                             foreignField: "_id",
-                            as: "categoryDetails"
+                            as: "productDetails"
                         }
                     },
                     {
                         $unwind: {
-                            path: "$categoryDetails",
+                            path: "$productDetails",
                             preserveNullAndEmptyArrays: true,
                         }
                     },
                     {
-                        project: {
-                            productName: "$categoryDetails.productName",
+                        $project: {
+                            productName: "$productDetails.productName",
                             firstName: "$userDetails.firstName",
                             lastName: "$userDetails.lastName",
                             email: "$userDetails.email",
@@ -120,18 +119,6 @@ class OrderController {
                 res.status(500).json(error);
             }
         });
-        // public getUserOrders = async(req: Request, res: Response) =>{
-        //     try{
-        //         const user = await orderModel.find({userId: req.body.userId});
-        //         if(user){
-        //             res.status(200).json(user);
-        //         } else {
-        //             res.status(409).json({user: true})
-        //         }
-        //     } catch(err){
-        //         res.status(500).json(err);
-        //     }
-        // }
         this.addCart = (req, res) => __awaiter(this, void 0, void 0, function* () {
             let orders = new userCart_model_1.default(req.body);
             try {

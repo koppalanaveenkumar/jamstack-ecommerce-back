@@ -12,5 +12,5 @@ const categorySchema = new mongoose_1.Schema({
         required: 'Category image is required',
     }
 });
-exports.default = mongoose_1.model('categorie', categorySchema);
+exports.default = mongoose_1.model('category', categorySchema);
 //# sourceMappingURL=category.model.js.map

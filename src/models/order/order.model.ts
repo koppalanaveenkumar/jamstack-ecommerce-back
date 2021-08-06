@@ -8,7 +8,7 @@ const orderSchema = new Schema({
     products: {
             type: Array,
             required: 'Product Id is required',
-        },
+    },
     quantity: {
         type: Schema.Types.Number,
         required: "Quantity is required"

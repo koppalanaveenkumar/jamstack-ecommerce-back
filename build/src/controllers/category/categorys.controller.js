@@ -130,49 +130,6 @@ class CategoryController {
                 res.status(500).json(err);
             }
         });
-        this.getAllProducts = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const allProducts = yield product_model_1.default.aggregate([
-                    {
-                        $lookup: {
-                            from: "categoryItems",
-                            localField: "categoryId",
-                            foreignField: "_id",
-                            as: "categoryDetails"
-                        }
-                    },
-                    {
-                        $unwind: {
-                            path: "$categoryDetails",
-                            preserveNullAndEmptyArrays: true,
-                        }
-                    },
-                    {
-                        project: {
-                            categoryName: "$categoryDetails.categoryName",
-                            productName: "$productName",
-                            description: "$description",
-                            brand: "$brand",
-                            color: "$color",
-                            price: "$price",
-                            images: "$images",
-                            countInStock: "$countInStock",
-                            manufacture: "$manufacture"
-                        }
-                    }
-                ]);
-                if (allProducts) {
-                    res.status(200).json(allProducts);
-                }
-                else {
-                    res.status(409).json({ allProducts: true });
-                }
-            }
-            catch (err) {
-                res.status(500).json(err);
-                console.log(Error);
-            }
-        });
     }
 }
 exports.default = CategoryController;

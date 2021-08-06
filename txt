@@ -1,0 +1,52 @@
+            // const orders = await orderModel.aggregate([
+            //     {
+            //         $match : {
+            //             userId : Types.ObjectId(req['tokenId'])
+            //         }
+            //     },
+            //     {
+            //         $lookup : {
+            //             from: "users",
+            //             localField: "userId",
+            //             foreignField: "_id",
+            //             as: "userDetails"
+            //         }
+            //     },
+            //     {
+            //         $unwind : {
+            //             path: "$userDetails",
+            //             preserveNullAndEmptyArrays : true,
+            //         }
+            //     },
+            //     {
+            //         $lookup : {
+            //             from: "categories",
+            //             localField: "categoryId",
+            //             foreignField: "_id",
+            //             as: "categoryDetails"
+            //         }
+            //     },
+            //     {
+            //         $unwind : {
+            //             path: "$categoryDetails",
+            //             preserveNullAndEmptyArrays : true,
+            //         }
+            //     },
+            //     {
+            //         project: {
+            //             productName: "$categoryDetails.productName",
+            //             firstName : "$userDetails.firstName",
+            //             lastName: "$userDetails.lastName",
+            //             email : "$userDetails.email",
+            //             quantity: "$quantity",
+            //             shippingAddress1 : "$shippingAddress1",
+            //             shippingAddress2 : "$shippingAddress2",
+            //             city: "$city",
+            //             zip : "$zip",
+            //             country: "$country",
+            //             totalPrice: "$totalPrice",
+            //             status: "$status",
+            //             phoneNo : "$phoneNo",
+            //         }
+            //     }
+            // ])
